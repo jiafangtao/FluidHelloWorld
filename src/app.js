@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { SharedMap } from "fluid-framework";
+import { SharedMap, SharedString } from "fluid-framework";
 import { TinyliciousClient } from "@fluidframework/tinylicious-client";
 
 export const diceValueKey = "dice-value-key";
@@ -11,22 +11,27 @@ export const diceValueKey = "dice-value-key";
 
 const client = new TinyliciousClient();
 const containerSchema = {
-    initialObjects: { diceMap: SharedMap },
+    initialObjects: { diceMap: SharedMap, freeText: SharedString },
 };
 
 const root = document.getElementById("content");
+const freetext = document.getElementById("freetext");
 
 const createNewDice = async () => {
     const { container } = await client.createContainer(containerSchema);
     container.initialObjects.diceMap.set(diceValueKey, 1);
+    container.initialObjects.freeText.insertText(0, "");
     const id = await container.attach();
     renderDiceRoller(container.initialObjects.diceMap, root);
+    renderText(container.initialObjects.freeText, freetext);
+
     return id;
 };
 
 const loadExistingDice = async (id) => {
     const { container } = await client.getContainer(id, containerSchema);
     renderDiceRoller(container.initialObjects.diceMap, root);
+    renderText(container.initialObjects.freeText, freetext);
 };
 
 async function start() {
@@ -77,4 +82,24 @@ const renderDiceRoller = (diceMap, elem) => {
     diceMap.on("valueChanged", updateDice);
     // Setting "fluidStarted" is just for our test automation
     window["fluidStarted"] = true;
+};
+
+const renderText = (textString, textArea) => {
+    
+    // Set the value at our dataKey with a random number between 1 and 6.
+    textArea.oninput = () => { 
+        //textString.insertText(0, textArea.value);
+        textString.replaceText(0, textString.getLength(), textArea.value);
+        console.debug("you are typing someting ...");
+    }
+
+    // Get the current value of the shared data to update the view whenever it changes.
+    const updateText = () => {
+        const textValue = textString.getText();
+        textArea.value = textValue;
+    };
+    updateText();
+
+    // Use the changed event to trigger the rerender whenever the value changes.
+    textString.on("sequenceDelta", updateText);
 };

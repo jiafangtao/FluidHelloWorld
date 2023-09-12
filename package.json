@@ -11,6 +11,7 @@
     "ci:test": "start-server-and-test start:server 7070 ci:test:jest",
     "ci:test:jest": "jest --ci --reporters=default --reporters=jest-junit",
     "start": "start-server-and-test start:server 7070 start:client",
+    "start2": "SET NODE_OPTIONS='--openssl-legacy-provider' && start-server-and-test start:server 7070 start:client",
     "start:client": "webpack serve",
     "start:server": "tinylicious",
     "format": "npm run prettier:fix",
