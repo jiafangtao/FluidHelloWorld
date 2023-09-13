@@ -5,7 +5,7 @@ walkthrough of this example and how it works, check out the [tutorial documentat
 
 ## Requirements
 
-[Node.js](https://nodejs.dev/en/download) version 16+
+[Node.js](https://nodejs.dev/en/download) version 18+
 
 ## Getting Started
 
@@ -16,4 +16,4 @@ npm install
 npm start
 ```
 
-Navigate to `localhost:8080` in the browser to view the app.
+Navigate to [http://localhost:8080/](http://localhost:8080/) in the browser to view the app.
