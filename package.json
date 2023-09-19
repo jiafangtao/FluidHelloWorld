@@ -26,7 +26,8 @@
 	},
 	"dependencies": {
 		"@fluidframework/tinylicious-client": "^1.3.7",
-		"fluid-framework": "^1.3.7"
+		"fluid-framework": "^1.3.7",
+		"three": "^0.156.1"
 	},
 	"devDependencies": {
 		"@fluidframework/build-common": "^2.0.0",
